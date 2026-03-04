@@ -23,7 +23,7 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        'https://task-manager-production-8c34.up.railway.app', form
+        'https://task-manager-production-8c34.up.railway.app/api/auth/login', form
       );
       login(data);
       navigate('/');
