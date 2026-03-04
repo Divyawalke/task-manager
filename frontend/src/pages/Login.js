@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
@@ -17,18 +17,20 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (!form.email || !form.password)
+
+    if (!form.email || !form.password) {
       return setError('All fields are required');
+    }
 
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        'https://task-manager-production-8c34.up.railway.app/api/auth/login', form
-      );
+
+      const { data } = await api.post('/auth/login', form);
+
       login(data);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
+      setError(err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -38,7 +40,9 @@ const Login = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         <h2 style={styles.title}>Welcome Back 👋</h2>
+
         {error && <p style={styles.error}>{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <input
             style={styles.input}
@@ -48,6 +52,7 @@ const Login = () => {
             value={form.email}
             onChange={handleChange}
           />
+
           <input
             style={styles.input}
             type="password"
@@ -56,10 +61,12 @@ const Login = () => {
             value={form.password}
             onChange={handleChange}
           />
+
           <button style={styles.btn} disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
         <p style={styles.switch}>
           Don't have an account? <Link to="/register">Register</Link>
         </p>
