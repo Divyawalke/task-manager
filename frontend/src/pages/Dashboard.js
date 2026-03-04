@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   const fetchTasks = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/tasks', config);
+      const { data } = await axios.get('https://task-manager-production-8c34.up.railway.app/api/tasks', config);
       setTasks(data);
     } catch (err) {
       setError('Failed to load tasks');
@@ -38,7 +38,7 @@ const Dashboard = () => {
     if (!title.trim()) return setError('Title is required');
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/tasks',
+        'https://task-manager-production-8c34.up.railway.app/api/tasks',
         { title, description },
         config
       );
@@ -55,7 +55,7 @@ const Dashboard = () => {
     const newStatus = task.status === 'Pending' ? 'Completed' : 'Pending';
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/tasks/${task._id}`,
+        `https://task-manager-production-8c34.up.railway.app/api/tasks/${task._id}`,
         { status: newStatus },
         config
       );
@@ -67,7 +67,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`, config);
+      await axios.delete(`https://task-manager-production-8c34.up.railway.app/api/tasks/${id}`, config);
       setTasks(tasks.filter((t) => t._id !== id));
     } catch (err) {
       setError('Failed to delete task');
@@ -84,7 +84,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/tasks/${editingTask._id}`,
+        `https://task-manager-production-8c34.up.railway.app/api/tasks/${editingTask._id}`,
         { title, description },
         config
       );
